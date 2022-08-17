@@ -1,11 +1,6 @@
 syntax = "proto3";
 option go_package = "./pb";
 
-message Category {
-  int64 id = 1;
-  string name = 2;
-}
-
 service CategoriesService {
   rpc GetAllCategories (GetAllCategoriesRequest) returns (stream GetAllCategoriesResponse) {}
   rpc AddCategory (stream AddCategoryRequest) returns (stream AddCategoryResponse) {}
@@ -15,7 +10,8 @@ message GetAllCategoriesRequest {
 }
 
 message GetAllCategoriesResponse {
-  repeated Category categories = 1;
+  int64 id = 1;
+  string name = 2;
 }
 
 message AddCategoryRequest {

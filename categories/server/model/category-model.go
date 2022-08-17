@@ -1,14 +1,14 @@
 package model
 
 import (
-	"github.com/beto-ouverney/blogs-microservices/categories/config"
-	"github.com/beto-ouverney/blogs-microservices/categories/entity"
-	"github.com/beto-ouverney/blogs-microservices/categories/errors"
+	"github.com/beto-ouverney/blogs-microservices/categories/server/config"
+	"github.com/beto-ouverney/blogs-microservices/categories/server/entity"
+	"github.com/beto-ouverney/blogs-microservices/categories/server/errors"
 	"github.com/jmoiron/sqlx"
 )
 
 type ICategoryModel interface {
-	Add(category *entity.Category) (*entity.Category, *errors.CustomError)
+	Add(name string) (*entity.Category, *errors.CustomError)
 	GetAll() (*[]entity.Category, *errors.CustomError)
 	GetByName(name string) (*entity.Category, *errors.CustomError)
 }

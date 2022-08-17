@@ -2,8 +2,8 @@ package model
 
 import (
 	"context"
-	"github.com/beto-ouverney/blogs-microservices/categories/entity"
-	"github.com/beto-ouverney/blogs-microservices/categories/errors"
+	"github.com/beto-ouverney/blogs-microservices/categories/server/entity"
+	"github.com/beto-ouverney/blogs-microservices/categories/server/errors"
 )
 
 func (model *modelSqlx) GetAll() (*[]entity.Category, *errors.CustomError) {
