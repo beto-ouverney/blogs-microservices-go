@@ -2,11 +2,10 @@ package controller
 
 import (
 	"github.com/beto-ouverney/blogs-microservices/categories/proto/pb"
-	"github.com/beto-ouverney/blogs-microservices/categories/server/errors"
 	"github.com/beto-ouverney/blogs-microservices/categories/server/service"
 )
 
-func (s *Server) GetAll(stream pb.CategoriesService_GetAllCategoriesServer) *errors.CustomError {
+func (s *Server) GetAllCategories(input *pb.GetAllCategoriesRequest, stream pb.CategoriesService_GetAllCategoriesServer) error {
 	services := service.New()
 	categories, err := services.GetAll()
 	if err != nil {
@@ -14,12 +13,11 @@ func (s *Server) GetAll(stream pb.CategoriesService_GetAllCategoriesServer) *err
 	}
 
 	for _, category := range *categories {
-
 		res := &pb.GetAllCategoriesResponse{
 			Id:   category.ID,
 			Name: category.Name,
 		}
-		stream(res)
+		stream.Send(res)
 	}
 	return nil
 }
