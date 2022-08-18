@@ -28,18 +28,6 @@ var ErrorResponse = map[string]StatusMsgError{
 		Status:  400,
 		Message: "Invalid fields",
 	},
-	"emailIsRequired": {
-		Status:  400,
-		Message: `"email" must be a valid email`,
-	},
-	"invalidPassword": {
-		Status:  400,
-		Message: `"password" length must be at least 6 characters long`,
-	},
-	"passwordIsRequired": {
-		Status:  400,
-		Message: `"password" is required`,
-	},
 	"tokenNotFound": {
 		Status:  401,
 		Message: "Token not found",
