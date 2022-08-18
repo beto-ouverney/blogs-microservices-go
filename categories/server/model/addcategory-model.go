@@ -13,8 +13,6 @@ func (model *modelSqlx) Add(name string) (*entity.Category, *errors.CustomError)
 		return nil, &errors.CustomError{Code: errors.EINTERNAL, Op: "categorymodel.AddCategory", Err: err}
 	}
 
-	defer model.sqlx.Close()
-
 	newCategory := &entity.Category{
 		Name: name,
 	}

@@ -6,7 +6,7 @@ import (
 	"io"
 )
 
-func (s *Server) Add(stream pb.CategoriesService_AddCategoryServer) error {
+func (s *Server) AddCategory(stream pb.CategoriesService_AddCategoryServer) error {
 
 	for {
 		req, err := stream.Recv()
@@ -26,6 +26,7 @@ func (s *Server) Add(stream pb.CategoriesService_AddCategoryServer) error {
 		if err != nil {
 			return err
 		}
+
 		stream.Send(&pb.AddCategoryResponse{Id: newCategory.ID, Name: newCategory.Name})
 
 	}

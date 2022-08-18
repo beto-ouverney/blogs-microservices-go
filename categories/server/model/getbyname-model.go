@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/beto-ouverney/blogs-microservices/categories/server/entity"
 	"github.com/beto-ouverney/blogs-microservices/categories/server/errors"
+	"log"
 )
 
 func (m *modelSqlx) GetByName(name string) (*entity.Category, *errors.CustomError) {
@@ -11,8 +12,9 @@ func (m *modelSqlx) GetByName(name string) (*entity.Category, *errors.CustomErro
 
 	defer m.sqlx.Close()
 
-	err := m.sqlx.GetContext(context.Background(), &category, "SELECT id,name FROM Categories WHERE name = ?", name)
+	err := m.sqlx.GetContext(context.Background(), &category, `SELECT id AS "categories.id" , name AS "categories.name" FROM Categories WHERE name = ?`, name)
 	if err != nil {
+		log.Println(err)
 		if err.Error() == "sql: no rows in result set" {
 			return nil, nil
 		}

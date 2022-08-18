@@ -7,11 +7,14 @@ import (
 
 func (c *CategoryService) Add(name string) (*entity.Category, *errors.CustomError) {
 	categoryExist, err := c.Model.GetByName(name)
+
 	if categoryExist != nil {
 		return nil, &errors.CustomError{Code: errors.ECONFLICT, Op: "categorycategory.AddCategory", Err: err}
 	}
 
-	newCategory, err := c.Model.Add(name)
+	newC := New()
+
+	newCategory, err := newC.Model.Add(name)
 	if err == nil {
 		return newCategory, nil
 	}
