@@ -1,20 +1,23 @@
 package service
 
 import (
+	"errors"
 	"github.com/beto-ouverney/blogs-microservices/categories/server/entity"
-	"github.com/beto-ouverney/blogs-microservices/categories/server/errors"
+	. "github.com/beto-ouverney/blogs-microservices/categories/server/errors"
 )
 
-func (c *CategoryService) Add(name string) (*entity.Category, *errors.CustomError) {
+func (c *CategoryService) Add(name string) (*entity.Category, *CustomError) {
+
+	if name == "" {
+		return nil, &CustomError{Code: EINVALID, Op: "category-service.Add", Err: errors.New(ErrorResponse["missingFields"].Message)}
+	}
 	categoryExist, err := c.Model.GetByName(name)
 
 	if categoryExist != nil {
-		return nil, &errors.CustomError{Code: errors.ECONFLICT, Op: "categorycategory.AddCategory", Err: err}
+		return nil, &CustomError{Code: ECONFLICT, Op: "category-service.AddCategory", Err: errors.New("category already exists")}
 	}
 
-	newC := New()
-
-	newCategory, err := newC.Model.Add(name)
+	newCategory, err := c.Model.Add(name)
 	if err == nil {
 		return newCategory, nil
 	}

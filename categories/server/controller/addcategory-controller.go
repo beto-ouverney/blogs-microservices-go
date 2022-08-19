@@ -8,6 +8,8 @@ import (
 
 func (s *Server) AddCategory(stream pb.CategoriesService_AddCategoryServer) error {
 
+	service := serviceCategory.New()
+
 	for {
 		req, err := stream.Recv()
 
@@ -19,15 +21,15 @@ func (s *Server) AddCategory(stream pb.CategoriesService_AddCategoryServer) erro
 			return err
 		}
 
-		service := serviceCategory.New()
+		newCategory, errC := service.Add(req.GetName())
 
-		newCategory, err := service.Add(req.GetName())
+		if errC != nil {
+			return errC
+		}
 
+		err = stream.Send(&pb.AddCategoryResponse{Id: newCategory.ID, Name: newCategory.Name})
 		if err != nil {
 			return err
 		}
-
-		stream.Send(&pb.AddCategoryResponse{Id: newCategory.ID, Name: newCategory.Name})
-
 	}
 }

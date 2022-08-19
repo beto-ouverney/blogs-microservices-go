@@ -9,8 +9,6 @@ import (
 func (m *modelSqlx) GetByName(name string) (*entity.Category, *errors.CustomError) {
 	var category entity.Category
 
-	defer m.sqlx.Close()
-
 	err := m.sqlx.GetContext(context.Background(), &category, `SELECT id AS "categories.id" , name AS "categories.name" FROM Categories WHERE name = ?`, name)
 	if err != nil {
 		if err.Error() == "sql: no rows in result set" {
@@ -19,5 +17,4 @@ func (m *modelSqlx) GetByName(name string) (*entity.Category, *errors.CustomErro
 		return nil, &errors.CustomError{Code: errors.EINTERNAL, Op: "categorymodel.GetByNameCategory", Err: err}
 	}
 	return &category, nil
-
 }

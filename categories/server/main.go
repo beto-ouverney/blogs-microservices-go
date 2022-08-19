@@ -2,21 +2,16 @@ package main
 
 import (
 	"github.com/beto-ouverney/blogs-microservices/categories/proto/pb"
+	"github.com/beto-ouverney/blogs-microservices/categories/server/config"
 	"github.com/beto-ouverney/blogs-microservices/categories/server/controller"
-	"github.com/joho/godotenv"
 	"google.golang.org/grpc"
 	"log"
 	"net"
-	"os"
 )
 
 func main() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file")
-	}
 
-	lis, err := net.Listen("tcp", os.Getenv("PORT"))
+	lis, err := net.Listen("tcp", config.PORT)
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
@@ -27,7 +22,7 @@ func main() {
 
 	pb.RegisterCategoriesServiceServer(grpcServer, &cat)
 
-	log.Println("Listening on Port" + os.Getenv("PORT"))
+	log.Println("Listening on Port" + config.PORT)
 
 	if err := grpcServer.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %s", err)
