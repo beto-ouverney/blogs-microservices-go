@@ -1,0 +1,25 @@
+syntax = "proto3";
+option go_package = "./pb";
+
+service CategoriesService {
+  rpc GetAllCategories (GetAllCategoriesRequest) returns (stream GetAllCategoriesResponse) {}
+  rpc AddCategory (stream AddCategoryRequest) returns (stream AddCategoryResponse) {}
+}
+
+message GetAllCategoriesRequest {
+
+}
+
+message GetAllCategoriesResponse {
+  int64 id = 1;
+  string name = 2;
+}
+
+message AddCategoryRequest {
+  string name = 1;
+}
+
+message AddCategoryResponse {
+  int64 id = 1;
+  string name = 2;
+}
