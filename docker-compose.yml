@@ -1,6 +1,32 @@
 version: "3.9"
 
 services:
+  user:
+    build: ./user
+    user: root
+    working_dir: /app-user
+    container_name: blogs_user_golang
+    tty: true
+    stdin_open: true
+    command: bash
+    volumes:
+      - ./user:/user
+    restart: always
+    depends_on:
+      - db
+    ports:
+      - 8201:8201
+    environment:
+      MYSQL_USER: root
+      MYSQL_PASSWORD: password
+      HOSTNAME: db
+      JWT_SECRET: secretJWT
+    # Os `healthcheck` devem garantir que a aplicação
+    # está operacional, antes de liberar o container
+    healthcheck:
+      test: [ "CMD", "lsof", "-t", "-i:8082" ]  # Caso utilize outra porta interna para o front, altere ela aqui também
+      timeout: 10s
+      retries: 5
   categories:
     build: ./categories
     user: root
@@ -24,7 +50,7 @@ services:
     # Os `healthcheck` devem garantir que a aplicação
     # está operacional, antes de liberar o container
     healthcheck:
-      test: ["CMD", "lsof", "-t", "-i:8080"]  # Caso utilize outra porta interna para o front, altere ela aqui também
+      test: ["CMD", "lsof", "-t", "-i:8081"]  # Caso utilize outra porta interna para o front, altere ela aqui também
       timeout: 10s
       retries: 5
   db:
